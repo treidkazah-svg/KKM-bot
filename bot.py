@@ -1,4 +1,4 @@
-import os, threading, requests
+import os, asyncio, threading, requests
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
@@ -41,6 +41,7 @@ async def close_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
  threading.Thread(target=run_web,daemon=True).start()
+ asyncio.set_event_loop(asyncio.new_event_loop())
  app=ApplicationBuilder().token(TOKEN).build()
  app.add_handler(CommandHandler("start",start))
  app.add_handler(CommandHandler("stop",stop_cmd))
